@@ -521,7 +521,7 @@ const SKILL_GROUPS=[{g:'Sistemas',i:['Active Directory','GPO','DNS','DHCP','Repl
 const CV={name:'Jose Martínez Sánchez',role:'Técnico de sistemas · ASIR · Ciberseguridad',tag:'Del control de accesos del puerto al control de accesos de la red.',
   exp:[['Técnico informático de soporte','QWERTY Informática · soporte presencial y remoto, instalación de equipos en farmacias'],['Técnico de reparación de equipos informáticos','MediaMarkt'],['Policía portuario interino','Autoridad Portuaria de Valencia'],['Prácticas en ciberseguridad · 6 meses','Departamento de Ciberseguridad · Autoridad Portuaria de Valencia']],
   edu:[['Técnico Superior en ASIR','Stucom · nota 8,99'],['Ciberseguridad','Linkia FP'],['Especialización en IA y Big Data','En curso']],
-  certs:[['Cisco Introduction to Cybersecurity','Cisco Networking Academy · 2025','https://www.credly.com/badges/8beb4ee6-c9d7-479c-87c7-e94c0527e833/public_url'],['Cisco Introduction to IoT','Cisco Networking Academy · 2026','https://www.credly.com/badges/78045f53-ce56-4b02-9699-06204e3a53ff/public_url']],
+  certs:[['Cisco Introduction to Cybersecurity','Cisco Networking Academy · 2025','https://www.credly.com/badges/8beb4ee6-c9d7-479c-87c7-e94c0527e833/public_url'],['Cisco Introduction to IoT','Cisco Networking Academy · 2026','https://www.credly.com/badges/78045f53-ce56-4b02-9699-06204e3a53ff/public_url'],['TryHackMe Pre Security (ruta completa)','TryHackMe · 2026 · Cyber Security 101 en curso · top 15 %','https://tryhackme.com/p/jmartinezs76','Ver perfil en TryHackMe']],
   lang:'Español (nativo) · Valenciano · Inglés (B1)',email:'jmartinezs2025@hotmail.com'};
 const devsFor=k=>Object.keys(SKILLS).filter(id=>SKILLS[id].includes(k));
 
@@ -917,7 +917,7 @@ function renderCV(el){
     <p class="cvtag">${CV.tag}</p>
     <div class="sect">Experiencia</div>${CV.exp.map(([a,b])=>`<div class="svc"><span><b style="font-weight:600">${a}</b><br><span class="sub" style="color:var(--muted);font-size:12px">${b}</span></span></div>`).join('')}
     <div class="sect">Formación</div>${CV.edu.map(([a,b])=>`<div class="svc"><span><b style="font-weight:600">${a}</b><br><span style="color:var(--muted);font-size:12px">${b}</span></span></div>`).join('')}
-    <div class="sect">Certificaciones</div>${CV.certs.map(([a,b,u])=>`<div class="svc"><span><b style="font-weight:600">${a}</b><br><span style="color:var(--muted);font-size:12px">${b} · <a href="${u}" target="_blank" rel="noopener" style="color:var(--accent)">Verificar en Credly</a></span></span></div>`).join('')}
+    <div class="sect">Certificaciones</div>${CV.certs.map(([a,b,u,l])=>`<div class="svc"><span><b style="font-weight:600">${a}</b><br><span style="color:var(--muted);font-size:12px">${b} · <a href="${u}" target="_blank" rel="noopener" style="color:var(--accent)">${l||'Verificar en Credly'}</a></span></span></div>`).join('')}
     <div class="sect">Habilidades <span>pasa por encima para verlas en la red</span></div>
     ${SKILL_GROUPS.map(g=>`<div class="sgrp">${g.g}</div><div class="skills">${g.i.map(k=>`<button class="skill" data-k="${k}">${k}</button>`).join('')}</div>`).join('')}
     <div class="sect">Idiomas</div><div style="font-size:13px">${CV.lang}</div>
