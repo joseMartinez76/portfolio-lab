@@ -193,6 +193,7 @@ pre.term .cmd{color:#8fd3ff}pre.term .hl{color:#ffb86b}pre.term .okl{color:#9be2
 .tbtn{display:flex;align-items:center;gap:7px;padding:0 14px;font-weight:600;font-size:13px;white-space:nowrap}
 .tbtn:hover{border-color:var(--accent)}
 .tbtn.prim{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tbtn.ticon{padding:0 11px;justify-content:center;min-width:40px}
 .tourcap{position:absolute;left:0;right:0;margin-inline:auto;width:max-content;max-width:min(620px,calc(100% - 28px));bottom:74px;z-index:6;padding:12px 14px 10px;display:grid;gap:8px}
 .tourcap p{margin:0;font-size:14px;font-weight:600;line-height:1.45;text-wrap:balance}
 .tourcap .tcb{height:3px;border-radius:3px;background:var(--stroke);overflow:hidden}.tourcap .tcb i{display:block;height:100%;width:0;background:var(--accent)}
@@ -265,6 +266,7 @@ pre.term .cmd{color:#8fd3ff}pre.term .hl{color:#ffb86b}pre.term .okl{color:#9be2
     <button class="tbtn acrylic prim" id="btour"><svg width="12" height="12" viewBox="0 0 14 14"><path d="M4 2.5v9l7.5-4.5z" fill="currentColor"/></svg><span>Tour<span class="lg"> de 1 minuto</span></span></button>
     <button class="tbtn acrylic" id="bme"><span class="avs" id="bmeav"></span>Sobre mí</button>
     <div class="status acrylic" id="status"></div>
+    <button class="tbtn acrylic ticon" id="btheme" type="button" aria-label="Cambiar a modo oscuro" title="Modo claro / oscuro"></button>
   </header>
 
   <aside class="card acrylic" id="card" aria-live="polite" hidden></aside>
@@ -743,15 +745,23 @@ function burst(pos,color,size){const s=new THREE.Sprite(new THREE.SpriteMaterial
 function isDark(){const t=document.documentElement.getAttribute('data-theme');if(t)return t==='dark';return matchMedia('(prefers-color-scheme: dark)').matches;}
 function applyTheme(){const dk=isDark();
   scene.background=null;scene.fog=null;groundMat.opacity=dk?.32:.12;
-  islandMats.srv.color.set(dk?0x1d3150:0xdde9fb);islandMats.usr.color.set(dk?0x163a3a:0xd7f0ee);islandMats.dmz.color.set(dk?0x3b2a1b:0xfbe7d4);
-  coreMat.color.set(dk?0x252d3c:0xe7ecf4);
+  islandMats.srv.color.set(dk?0x1d3150:0x6e9fe6);islandMats.usr.color.set(dk?0x163a3a:0x5cbfb6);islandMats.dmz.color.set(dk?0x3b2a1b:0xeb9e55);
+  coreMat.color.set(dk?0x252d3c:0xb3bdcd);
   hemi.intensity=dk?.62:.82;hemi.groundColor.set(dk?0x1a2130:0xcfd8e6);sun.intensity=dk?.6:.72;
   const dc={srv:dk?'#9cc3ff':'#1f5fbf',usr:dk?'#7fe0da':'#0b7a76',dmz:dk?'#ffbf86':'#b55a0c'};
   Object.entries(SEGS).forEach(([k,s])=>{if(!s.decal)return;s.decal.map=decal(s.name.toUpperCase()+'  ·  '+s.net,dc[k]);s.decal.opacity=dk?.75:.6;s.decal.needsUpdate=true;});
   selRing.material.color.set(dk?0x4cc2ff:0x1f6fe0);
 }
-applyTheme();
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme);
+try{const t=localStorage.getItem('pl-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}
+const SUN='<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></g></svg>';
+const MOON='<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7z" fill="currentColor"/></svg>';
+function paintThemeBtn(){const b=document.getElementById('btheme');if(!b)return;const dk=isDark();
+  b.innerHTML=dk?SUN:MOON;b.setAttribute('aria-label',dk?'Cambiar a modo claro':'Cambiar a modo oscuro');b.title=dk?'Modo claro':'Modo oscuro';}
+document.getElementById('btheme').onclick=()=>{const next=isDark()?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);try{localStorage.setItem('pl-theme',next);}catch(e){}};
+applyTheme();paintThemeBtn();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{applyTheme();paintThemeBtn();});
+new MutationObserver(paintThemeBtn).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 new MutationObserver(applyTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 
 /* ================= TAMAÑO ================= */
