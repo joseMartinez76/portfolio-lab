@@ -905,8 +905,6 @@ function renderCV(el){
   el.innerHTML=`${XBTN}<div class="dhead"><div class="ava">${AV('cv')}</div><div style="min-width:0"><div class="eyebrow">ADM01 · <span class="mono">10.10.10.50</span> · puesto del técnico</div><h2>${CV.name}</h2><p>${CV.role}</p></div></div>
     <p class="cvtag">${CV.tag}</p>
     <div class="sect">Experiencia</div>${CV.exp.map(([a,b])=>`<div class="svc"><span><b style="font-weight:600">${a}</b><br><span class="sub" style="color:var(--muted);font-size:12px">${b}</span></span></div>`).join('')}
-    <div class="svc"><span><b style="font-weight:600">PortFolio Lab</b><br><span style="color:var(--muted);font-size:12px">Red completa montada desde cero · ${INCIDENTS.length} averías resueltas y documentadas</span>
-      <div class="incs">${INCIDENTS.map((inc,i)=>`<button data-i="${i}">${inc.short}</button>`).join('')}</div></span></div>
     <div class="sect">Formación</div>${CV.edu.map(([a,b])=>`<div class="svc"><span><b style="font-weight:600">${a}</b><br><span style="color:var(--muted);font-size:12px">${b}</span></span></div>`).join('')}
     <div class="sect">Habilidades <span>pasa por encima para verlas en la red</span></div>
     ${SKILL_GROUPS.map(g=>`<div class="sgrp">${g.g}</div><div class="skills">${g.i.map(k=>`<button class="skill" data-k="${k}">${k}</button>`).join('')}</div>`).join('')}
